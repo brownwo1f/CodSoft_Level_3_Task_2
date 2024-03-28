@@ -1,1 +1,3 @@
-# CodSoft_Level_3_Task_2
+# CodSoft
+## Level-3-Task-2
+### Project Management tool using MERN Stack
