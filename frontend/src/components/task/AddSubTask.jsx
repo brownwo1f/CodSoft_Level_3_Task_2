@@ -23,6 +23,7 @@ const AddSubTask = ({ open, setOpen, id }) => {
       setTimeout(() => {
         setOpen(false);
       }, 500);
+      window.location.reload();
     } catch (err) {
       console.log(err);
       toast.error(err?.data?.message || err.error);

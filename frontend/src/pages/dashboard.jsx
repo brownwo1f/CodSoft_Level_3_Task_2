@@ -16,6 +16,7 @@ import { BGS, PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import UserInfo from "../components/UserInfo";
 import { useGetDashboardStatsQuery } from "../redux/slices/api/taskApiSlice";
 import Loading from "../components/Loader";
+import Tasks from "./Tasks";
 
 const TaskTable = ({ tasks }) => {
   const ICONS = {
@@ -163,50 +164,45 @@ const Dashboard = () => {
   const stats = [
     {
       _id: "1",
-      label: "TOTAL TASK",
+      label: "TOTAL",
       total: data?.totalTasks || 0,
       icon: <FaNewspaper />,
       bg: "bg-[#1d4ed8]",
     },
     {
       _id: "2",
-      label: "COMPLTED TASK",
+      label: "COMPLTED",
       total: totals["completed"] || 0,
       icon: <MdAdminPanelSettings />,
       bg: "bg-[#0f766e]",
     },
     {
       _id: "3",
-      label: "TASK IN PROGRESS ",
+      label: " IN PROGRESS ",
       total: totals["in progress"] || 0,
       icon: <LuClipboardEdit />,
       bg: "bg-[#f59e0b]",
     },
     {
       _id: "4",
-      label: "TODOS",
+      label: "PENDING",
       total: totals["todo"],
       icon: <FaArrowsToDot />,
       bg: "bg-[#be185d]" || 0,
     },
   ];
 
-  const Card = ({ label, count, bg, icon }) => {
+  const Card = ({ label, count, bg }) => {
     return (
-      <div className="w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between">
+      <div
+        className={clsx(
+          "w-full h-32 p-5 text-white shadow-md rounded-md flex items-center justify-between",
+          bg
+        )}
+      >
         <div className="h-full flex flex-1 flex-col justify-between">
-          <p className="text-base text-gray-600">{label}</p>
-          <span className="text-2xl font-semibold">{count}</span>
-          <span className="text-sm text-gray-400">{"110 last month"}</span>
-        </div>
-
-        <div
-          className={clsx(
-            "w-10 h-10 rounded-full flex items-center justify-center text-white",
-            bg
-          )}
-        >
-          {icon}
+          <p className="text-2xl font-bold text-white mx-auto">{label}</p>
+          <span className="text-3xl font-black mx-auto">{count}</span>
         </div>
       </div>
     );
@@ -219,21 +215,8 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <div className="w-full bg-white my-16 p-4 rounded shadow-sm">
-        <h4 className="text-xl text-gray-600 font-semibold">
-          Chart by Priority
-        </h4>
-        <Chart />
-      </div>
-
-      <div className="w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8">
-        {/* /left */}
-
-        <TaskTable tasks={summary.last10Task} />
-
-        {/* /right */}
-
-        <UserTable users={summary.users} />
+      <div className="py-8">
+        <Tasks />
       </div>
     </div>
   );
