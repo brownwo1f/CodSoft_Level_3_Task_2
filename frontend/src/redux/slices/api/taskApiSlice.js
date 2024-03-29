@@ -4,15 +4,6 @@ const TASK_URL = "http://localhost:5000/api/task";
 
 export const taskApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    updateUser: builder.mutation({
-      query: (data) => ({
-        url: `${TASK_URL}/profile`,
-        method: "PUT",
-        body: data,
-        credentials: "include",
-      }),
-    }),
-
     getDashboardStats: builder.query({
       query: () => ({
         url: `${TASK_URL}/dashboard`,
@@ -21,17 +12,52 @@ export const taskApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    deleteUser: builder.mutation({
-      query: (id) => ({
-        url: `${TASK_URL}/${id}`,
-        method: "DELETE",
+    getAllTask: builder.query({
+      query: ({ strQuery, isTrashed, search }) => ({
+        url: `${TASK_URL}?stage=${strQuery}&isTrashed=${isTrashed}&search=${search}/dashboard`,
+        method: "GET",
         credentials: "include",
       }),
     }),
 
-    userAction: builder.mutation({
+    createTask: builder.mutation({
       query: (data) => ({
-        url: `${TASK_URL}/${data.id}`,
+        url: `${TASK_URL}/create`,
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+    }),
+
+    createTask: builder.mutation({
+      query: (data) => ({
+        url: `${TASK_URL}/create`,
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+    }),
+
+    updateTask: builder.mutation({
+      query: (data) => ({
+        url: `${TASK_URL}/update/${data.id}`,
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      }),
+    }),
+
+    trashTask: builder.mutation({
+      query: (id) => ({
+        url: `${TASK_URL}/${id}`,
+        method: "PUT",
+        credentials: "include",
+      }),
+    }),
+
+    createSubTask: builder.mutation({
+      query: ({ data, id }) => ({
+        url: `${TASK_URL}/create-subtask/${id}`,
         method: "PUT",
         body: data,
         credentials: "include",
@@ -41,8 +67,10 @@ export const taskApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useUpdateUserMutation,
   useGetDashboardStatsQuery,
-  useDeleteUserMutation,
-  useUserActionMutation,
+  useGetAllTaskQuery,
+  useTrashTaskMutation,
+  useCreateTaskMutation,
+  useUpdateTaskMutation,
+  useCreateSubTaskMutation,
 } = taskApiSlice;
