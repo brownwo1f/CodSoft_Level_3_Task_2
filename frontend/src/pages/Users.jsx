@@ -20,7 +20,7 @@ const Users = () => {
   const [openAction, setOpenAction] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  const { data, isLoading } = useGetTeamListQuery();
+  const { data, isLoading, refetch } = useGetTeamListQuery();
   const [deleteUser] = useDeleteUserMutation();
   const [userAction] = useUserActionMutation();
   const userActionHandler = async () => {
@@ -30,7 +30,6 @@ const Users = () => {
         id: selected?.id,
       });
       refetch();
-      toast.success(result.data.message);
       setSelected(null);
       setOpenAction(false);
     } catch (error) {

@@ -55,10 +55,11 @@ const AddTask = ({ open, setOpen, task }) => {
         priority,
       };
       const res = task?._id
-        ? await updateTask({ ...newData, _id: task._id }).unwrap()
+        ? await updateTask({ ...newData, id: task._id }).unwrap()
         : await createTask(newData).unwrap();
 
       toast.success(res.message);
+      window.location.reload();
       setOpen(false);
     } catch (error) {
       console.log(error.message);

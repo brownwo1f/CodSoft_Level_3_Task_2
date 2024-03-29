@@ -281,13 +281,14 @@ export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, date, team, stage, priority, assets } = req.body;
+    console.log(id, title, date, team, stage, priority, assets);
 
     const task = await Task.findById(id);
 
     task.title = title;
     task.date = date;
     task.priority = priority.toLowerCase();
-    task.assets = assets;
+    task.assets = [];
     task.stage = stage.toLowerCase();
     task.team = team;
 

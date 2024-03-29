@@ -10,6 +10,7 @@ import AddTask from "./AddTask";
 import AddSubTask from "./AddSubTask";
 import ConfirmatioDialog from "../Dialogs";
 import { useTrashTaskMutation } from "../../redux/slices/api/taskApiSlice";
+import { toast } from "sonner";
 
 const TaskDialog = ({ task }) => {
   const [open, setOpen] = useState(false);
@@ -18,20 +19,23 @@ const TaskDialog = ({ task }) => {
 
   const navigate = useNavigate();
 
+  const [deleteTask] = useTrashTaskMutation();
+
   const duplicateHandler = () => {};
+
   const deleteClicks = () => {
     setOpenDialog(true);
   };
 
-  const [trashTask] = useTrashTaskMutation();
-  const deleteHandler = async (task) => {
+  const deleteHandler = async () => {
     try {
-      const res = await trashTask({
+      const res = await deleteTask({
         id: task._id,
         isTrashed: "trash",
       }).unwrap();
 
       toast.success(res?.message);
+
       setOpenDialog(false);
       window.location.reload();
     } catch (error) {
@@ -58,7 +62,7 @@ const TaskDialog = ({ task }) => {
     {
       label: "Duplicate",
       icon: <HiDuplicate className="mr-2 h-5 w-5" aria-hidden="true" />,
-      onClick: () => duplicateHanlder(),
+      onClick: () => duplicateHandler(),
     },
   ];
 
